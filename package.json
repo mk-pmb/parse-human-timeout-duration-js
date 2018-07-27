@@ -1,0 +1,30 @@
+{ "name": "parse-human-timeout-duration",
+  "version": "0.1.0",
+  "description": "Basically timestring-notsep but checks the range limits for valid JS setTimeout() timespans.",
+  "keywords": ["human-readable", "timeout", "duration"],
+
+  "author": "M.K. (https://github.com/mk-pmb)",
+  "homepage": "https://github.com/mk-pmb/parse-human-timeout-duration-js/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/parse-human-timeout-duration-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/parse-human-timeout-duration-js/issues"
+  },
+  "contributors": [],
+
+  "private": false, "license": "ISC",
+
+  "main": "htd.js",
+  "scripts": { "test": "nodejs usage.js" },
+  "directories": { "test": "test" },
+
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}
