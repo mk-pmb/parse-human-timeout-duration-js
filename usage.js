@@ -23,6 +23,11 @@ function throws(f, a, e) {
   throws(phtd, ['0 sec'], /Timespan must be positive$/);
   throws(phtd, ['0 sec', { optional: true }],
     /Timespan must be positive, or "false" to disable/);
+  throws(phtd, [false], /Timespan required/);
+  equal(phtd(false, { optional: true }), false);
+  throws(phtd, ['false'], /Invalid duration: Found no number/);
+  throws(phtd, ['false', { optional: true }],
+    /Invalid duration: Found no number/);
 
   throws(phtd, ['never'], /Timespan required/);
   equal(phtd('never', { optional: true }), false);

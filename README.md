@@ -37,7 +37,7 @@ from [usage.js](usage.js):
 
 <!--#include file="usage.js" outdent="  " code="javascript"
   start="  // #BEGIN# usage demo" stop="  // #ENDOF# usage demo" -->
-<!--#verbatim lncnt="18" -->
+<!--#verbatim lncnt="23" -->
 ```javascript
 var phtd = require('parse-human-timeout-duration');
 
@@ -51,6 +51,11 @@ throws(phtd, ['1 year'], /^RangeError: Timespan too long/);
 throws(phtd, ['0 sec'], /Timespan must be positive$/);
 throws(phtd, ['0 sec', { optional: true }],
   /Timespan must be positive, or "false" to disable/);
+throws(phtd, [false], /Timespan required/);
+equal(phtd(false, { optional: true }), false);
+throws(phtd, ['false'], /Invalid duration: Found no number/);
+throws(phtd, ['false', { optional: true }],
+  /Invalid duration: Found no number/);
 
 throws(phtd, ['never'], /Timespan required/);
 equal(phtd('never', { optional: true }), false);
