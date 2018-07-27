@@ -16,9 +16,9 @@ function throws(f, a, e) {
   equal(phtd('2.5 minutes'), 150);
   equal(phtd('2.5 minutes', { unit: 'ms' }), 150e3);
   throws(phtd, ['0.2 sec', { min: 1 }],
-    / Timespan must be at least 1 sec/);
+    /Timespan must be at least 1 sec/);
   throws(phtd, ['0.2 sec', { min: 500, unit: 'ms' }],
-    / Timespan must be at least 500 ms/);
+    /Timespan must be at least 500 ms/);
   throws(phtd, ['1 year'], /^RangeError: Timespan too long/);
   throws(phtd, ['0 sec'], /Timespan must be positive$/);
   throws(phtd, ['0 sec', { optional: true }],
