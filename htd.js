@@ -5,23 +5,27 @@
 var EX, parseHumanDuration = require('timestring-notsep'),
   maxJsTimeoutSec = (Math.pow(2, 31) - 1) / 1e3;
 
-EX = function parseHumanTimeoutDuration(dura, opt) {
-  if (!opt) { opt = false; }
+function ptdCore(dura, opt, fx) {
   if (dura === 'max') { return maxJsTimeoutSec; }
   if (dura === 'off') { dura = false; }
   if (dura === 'never') { dura = false; }
   if (dura === false) {
     if (opt.optional) { return false; }
-    throw new Error('Timespan required');
+    fx.fail(Error, 'Timespan required');
   }
-  var sec = parseHumanDuration(dura), unit = (opt.unit || 'sec'),
-    min = (+opt.min || 0);
+  var sec, unit = (opt.unit || 'sec'), min = (+opt.min || 0);
+  try {
+    sec = parseHumanDuration(dura)
+  } catch (badDura) {
+    badDura.message = fx.errPfx + badDura.message;
+    throw badDura;
+  }
   if (sec <= 0) {
-    throw new RangeError('Timespan must be positive' +
+    fx.fail(RangeError, 'Timespan must be positive' +
       (opt.optional ? ', or "false" to disable' : ''));
   }
   if (sec > maxJsTimeoutSec) {
-    throw new RangeError('Timespan too long for a JS timeout: ' + dura);
+    fx.fail(RangeError, 'Timespan too long for a JS timeout: ' + dura);
   }
   switch (unit) {
   case 's':
@@ -32,12 +36,27 @@ EX = function parseHumanTimeoutDuration(dura, opt) {
     sec *= 1e3;
     break;
   default:
-    throw new Error('Unsupported output time unit: ' + unit);
+    fx.fail(Error, 'Unsupported output time unit: ' + unit);
   }
   if (sec < min) {
-    throw new RangeError('Timespan must be at least ' + min + ' ' + unit);
+    fx.fail(RangeError, 'Timespan must be at least ' + min + ' ' + unit);
   }
   return sec;
+}
+
+EX = function parseHumanTimeoutDuration(dura, opt) {
+  if (!opt) { opt = false; }
+  var descr = opt.descr, dict = opt.lookup, errPfx;
+  if (dict) {
+    if (!descr) { descr = dura; } else { descr += ' [' + dura + ']'; }
+    dura = dict[dura];
+  }
+  errPfx = (descr ? descr + ': ' : '');
+  function fail(ErrCls, msg) { throw new ErrCls(errPfx + msg); }
+  return ptdCore(dura, opt, {
+    fail: fail,
+    errPfx: errPfx,
+  });
 };
 
 EX.maxJsTimeoutSec = maxJsTimeoutSec;
