@@ -6,6 +6,7 @@ var EX, parseHumanDuration = require('timestring-notsep'),
   maxJsTimeoutSec = (Math.pow(2, 31) - 1) / 1e3;
 
 function ptdCore(dura, opt, fx) {
+  if (dura === undefined) { dura = opt.undef; }
   if (dura === 'max') { return maxJsTimeoutSec; }
   if (dura === 'off') { dura = false; }
   if (dura === 'never') { dura = false; }
@@ -15,7 +16,7 @@ function ptdCore(dura, opt, fx) {
   }
   var sec, unit = (opt.unit || 'sec'), min = (+opt.min || 0);
   try {
-    sec = parseHumanDuration(dura)
+    sec = parseHumanDuration(dura);
   } catch (badDura) {
     badDura.message = fx.errPfx + badDura.message;
     throw badDura;
