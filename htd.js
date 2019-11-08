@@ -46,7 +46,13 @@ function ptdCore(dura, opt, fx) {
 }
 
 EX = function parseHumanTimeoutDuration(dura, opt) {
-  if (!opt) { opt = false; }
+  if (!opt) {
+    opt = false;
+    if (dura && (typeof dura === 'object')) {
+      opt = dura;
+      dura = opt[opt.lookup ? 'key' : 'duration'];
+    }
+  }
   var descr = opt.descr, dict = opt.lookup, errPfx;
   if (dict) {
     if (!descr) { descr = dura; } else { descr += ' [' + dura + ']'; }

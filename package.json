@@ -1,5 +1,5 @@
 { "name": "parse-human-timeout-duration",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Basically timestring-notsep but checks the range limits for valid JS setTimeout() timespans.",
   "keywords": ["human-readable", "timeout", "duration"],
 
@@ -17,7 +17,7 @@
   "private": false, "license": "ISC",
 
   "main": "htd.js",
-  "scripts": { "test": "nodejs usage.js" },
+  "scripts": { "test": "nodejs test/usage.js" },
   "directories": { "test": "test" },
 
   "dependencies": {
